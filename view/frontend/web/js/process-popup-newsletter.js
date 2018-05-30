@@ -29,7 +29,7 @@ define([
                         buttons: false,
                         modalClass : 'popup-newsletter',
                         closed: function(){
-                            $.cookie("newsletter_popup", 1, { expires : 30 });
+                            $.cookie("newsletter_popup", 1, { expires : 3 });
                         }
                     };
 

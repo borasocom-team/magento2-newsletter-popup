@@ -15,8 +15,45 @@
 
 namespace PHPCuong\Newsletter\Block;
 
+use Magento\Customer\Model\Session;
+use Magento\Framework\Stdlib\CookieManagerInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Newsletter\Model\Subscriber;
+
 class Subscribe extends \Magento\Framework\View\Element\Template
 {
+    const NEWSLETTER_POPUP_COOKIE_NAME = 'newsletter_popup';
+
+    protected $customerSession;
+    protected $newsletterSubscriber;
+    protected $cookieManager;
+
+    public function __construct(
+        Template\Context $context,
+        Session $session,
+        Subscriber $subscriber,
+        CookieManagerInterface $cookie,
+        array $data = []
+    )
+    {
+        $this->customerSession = $session;
+        $this->newsletterSubscriber = $subscriber;
+        $this->cookieManager = $cookie;
+
+        $customerId = $this->customerSession->getCustomerId();
+        $checkNewsletterSubscriber = false;
+
+        if(is_numeric($customerId)){
+            $checkNewsletterSubscriber = $this->newsletterSubscriber->loadByCustomerId($customerId);
+        }
+
+        if($checkNewsletterSubscriber && $checkNewsletterSubscriber->isSubscribed()){
+            $this->cookieManager->setPublicCookie(self::NEWSLETTER_POPUP_COOKIE_NAME,1);
+        }
+
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve form action url and set "secure" param to avoid confirm
      * message when we submit form from secure page to unsecure
