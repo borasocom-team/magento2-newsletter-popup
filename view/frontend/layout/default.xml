@@ -8,7 +8,13 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content.top">
-            <block class="PHPCuong\Newsletter\Block\Subscribe" name="form.popup.subscribe" as="form_popup_subscribe" before="-" template="popup-subscribe.phtml"/>
+            <block class="PHPCuong\Newsletter\Block\Subscribe" name="form.popup.subscribe" as="form_popup_subscribe" before="-" template="popup-subscribe.phtml">
+                <block class="Magento\Cms\Block\Block" name="newsletter.popup.upper.content">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">newsletter_popup_upper_content</argument>
+                    </arguments>
+                </block>
+            </block>
         </referenceContainer>
     </body>
 </page>

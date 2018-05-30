@@ -11,6 +11,8 @@
  * @var \PHPCuong\Newsletter\Block\Subscribe $block
  * @see \PHPCuong\Newsletter\Block\Subscribe
  */
+
+$htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
 ?>
 <style>
     .popup-newsletter .block.newsletter {
@@ -47,7 +49,11 @@
         </div>
     </div>
     <div class="intro">
-        <p><?php echo __('Want to be the first to hear latest news and find out about our exclusive promotions.'); ?></p>
+        <?php if(!empty($htmlFromCms)): ?>
+            <?php echo $htmlFromCms; ?>
+        <?php else: ?>
+            <p><?php echo __('Want to be the first to hear latest news and find out about our exclusive promotions.'); ?></p>
+        <?php endif; ?>
         <h2><?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:'); ?></h2>
     </div>
     <div class="content">
