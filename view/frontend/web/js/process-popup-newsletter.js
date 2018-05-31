@@ -35,10 +35,19 @@ define([
 
                 modal(popup_newsletter_options, this.element);
 
-                setTimeout(function() {
-                    self._setStyleCss();
-                    self.element.modal('openModal');
-                }, 3000);
+                // setTimeout(function() {
+                //     self._setStyleCss();
+                //     self.element.modal('openModal');
+                // }, 3000);
+
+                $(window).on("scroll", function() {
+                    var scrollHeight = $(document).height();
+                    var scrollPosition = $(window).height() + $(window).scrollTop();
+                    if ((scrollHeight - scrollPosition) / scrollHeight <= 0.3) {
+                        self._setStyleCss();
+                        self.element.modal('openModal');
+                    }
+                });
 
                 this.element.find('form').submit(function() {
                     if ($(this).validation('isValid')) {
