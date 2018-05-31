@@ -76,6 +76,7 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
                     <span><?php /* @escapeNotVerified */ echo __('Subscribe'); ?></span>
                 </button>
             </div>
+            <?php echo $block->getChildHtml('popup_privacy') ?>
         </form>
     </div>
 </div>
