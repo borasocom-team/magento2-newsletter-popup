@@ -43,7 +43,7 @@ define([
                 $(window).on("scroll", function() {
                     var scrollHeight = $(document).height();
                     var scrollPosition = $(window).height() + $(window).scrollTop();
-                    if ((scrollHeight - scrollPosition) / scrollHeight <= 0.3) {
+                    if (((scrollHeight - scrollPosition) / scrollHeight <= 0.3) && (!$.cookie("newsletter_popup"))) {
                         self._setStyleCss();
                         self.element.modal('openModal');
                     }
