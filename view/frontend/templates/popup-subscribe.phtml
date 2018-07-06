@@ -42,6 +42,7 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
         display: block;
     }
 </style>
+<?php if($block->isEnabled()): ?>
 <div class="block newsletter newsletter-content" id="popup-newsletter">
     <div class="messages">
         <div class="message message-error error">
@@ -54,8 +55,11 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
         <?php else: ?>
             <p><?php echo __('Want to be the first to hear latest news and find out about our exclusive promotions.'); ?></p>
         <?php endif; ?>
+        <?php if(!$block->getOnlyCms()): ?>
         <h2><?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:'); ?></h2>
+        <?php endif; ?>
     </div>
+    <?php if(!$block->getOnlyCms()): ?>
     <div class="content">
         <form class="form subscribe"
             novalidate
@@ -79,6 +83,7 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
             <?php echo $block->getChildHtml('popup_privacy') ?>
         </form>
     </div>
+    <?php endif; ?>
 </div>
 <script type="text/x-magento-init">
     {
@@ -89,3 +94,4 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
         }
     }
 </script>
+<?php endif; ?>
