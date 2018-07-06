@@ -20,7 +20,7 @@ define([
          */
         _create: function () {
             var stopPopUp = false;
-            if(!$.cookie("newsletter_popup")){
+            if(!$.cookie(jQuery('#cookiename').data('cookiename'))){
                 var self = this,
                     popup_newsletter_options = {
                         type: 'popup',
@@ -30,7 +30,7 @@ define([
                         buttons: false,
                         modalClass : 'popup-newsletter',
                         closed: function(){
-                            $.cookie("newsletter_popup", 1, { expires : 3 });
+                            $.cookie(jQuery('#cookiename').data('cookiename'), 1, { expires : 3 });
                             stopPopUp = true;
                         }
                     };
@@ -45,7 +45,7 @@ define([
                 $(window).on("scroll", function() {
                     var scrollHeight = $(document).height();
                     var scrollPosition = $(window).height() + $(window).scrollTop();
-                    if (((scrollHeight - scrollPosition) / scrollHeight <= 0.3) && (!$.cookie("newsletter_popup")) && !stopPopUp) {
+                    if (((scrollHeight - scrollPosition) / scrollHeight <= 0.3) && (!$.cookie(jQuery('#cookiename').data('cookiename'))) && !stopPopUp) {
                         self._setStyleCss();
                         self.element.modal('openModal');
                     }

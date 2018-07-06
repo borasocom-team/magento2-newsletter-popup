@@ -12,90 +12,104 @@
  * @see \PHPCuong\Newsletter\Block\Subscribe
  */
 
-$htmlFromCms = $block->getChildHtml(\PHPCuong\Newsletter\Helper\Data::CMS_BLOCK_ID)
+$htmlFromCms = $block->getChildHtml(\PHPCuong\Newsletter\Helper\Data::CMS_BLOCK_ID);
+$popUpCookieFullName = \PHPCuong\Newsletter\Block\Subscribe::NEWSLETTER_POPUP_COOKIE_NAME . '_' . hash('md5', $htmlFromCms);
 ?>
-<style>
-    .popup-newsletter .block.newsletter {
-        width: 100%;
-    }
-    .newsletter-content {
-        display: none;
-    }
-    .newsletter-content .messages {
-        display: none;
-    }
-    .newsletter-content h2 {
-        text-transform: uppercase;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: initial;
-        margin: 15px 0px;
-    }
-    .newsletter-content.block.newsletter .actions {
-        display: block;
-        margin-top: 10px;
-        width: 100%;
-    }
-    .newsletter-content .actions .action.subscribe.primary {
-        border-radius: 3px;
-        width: 100%;
-        display: block;
-    }
-</style>
-<?php if($block->isEnabled()): ?>
-<div class="block newsletter newsletter-content" id="popup-newsletter">
-    <div class="messages">
-        <div class="message message-error error">
-            <div></div>
+    <style>
+        .popup-newsletter .block.newsletter {
+            width: 100%;
+        }
+
+        .newsletter-content {
+            display: none;
+        }
+
+        .newsletter-content .messages {
+            display: none;
+        }
+
+        .newsletter-content h2 {
+            text-transform: uppercase;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: initial;
+            margin: 15px 0px;
+        }
+
+        .newsletter-content.block.newsletter .actions {
+            display: block;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .newsletter-content .actions .action.subscribe.primary {
+            border-radius: 3px;
+            width: 100%;
+            display: block;
+        }
+    </style>
+<?php if ($block->isEnabled()): ?>
+    <div class="block newsletter newsletter-content" id="popup-newsletter">
+        <div class="messages">
+            <div class="message message-error error">
+                <div></div>
+            </div>
         </div>
-    </div>
-    <div class="intro">
-        <?php if(!empty($htmlFromCms)): ?>
-            <?php echo $htmlFromCms; ?>
-        <?php else: ?>
-            <p><?php echo __('Want to be the first to hear latest news and find out about our exclusive promotions.'); ?></p>
-        <?php endif; ?>
-        <?php if(!$block->getOnlyCms()): ?>
-        <h2><?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:'); ?></h2>
-        <?php endif; ?>
-    </div>
-    <?php if($block->onlyCms() == 0): ?>
-    <div class="content">
-        <form class="form subscribe"
-            novalidate
-            action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl(); ?>"
-            method="post"
-            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
-            id="phpcuong-newsletter-validate-detail">
-            <div class="field newsletter">
-                <label class="label" for="newsletter"><span><?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:'); ?></span></label>
-                <div class="control">
-                    <input name="email" type="email" id="phpcuong-newsletter"
-                                placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email address'); ?>"
-                                data-validate="{required:true, 'validate-email':true}"/>
-                </div>
+        <div class="intro">
+            <?php if ( ! empty($htmlFromCms)): ?>
+                <?php echo $htmlFromCms; ?>
+            <?php else: ?>
+                <p><?php echo __('Want to be the first to hear latest news and find out about our exclusive promotions.'); ?></p>
+            <?php endif; ?>
+            <?php if ( ! $block->getOnlyCms()): ?>
+                <h2><?php /* @escapeNotVerified */
+                    echo __('Sign Up for Our Newsletter:'); ?></h2>
+            <?php endif; ?>
+        </div>
+        <?php if ($block->onlyCms() == 0): ?>
+            <div class="content">
+                <form class="form subscribe"
+                      novalidate
+                      action="<?php /* @escapeNotVerified */
+                      echo $block->getFormActionUrl(); ?>"
+                      method="post"
+                      data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                      id="phpcuong-newsletter-validate-detail">
+                    <div class="field newsletter">
+                        <label class="label" for="newsletter"><span><?php /* @escapeNotVerified */
+                                echo __('Sign Up for Our Newsletter:'); ?></span></label>
+                        <div class="control">
+                            <input name="email" type="email" id="phpcuong-newsletter"
+                                   placeholder="<?php /* @escapeNotVerified */
+                                   echo __('Enter your email address'); ?>"
+                                   data-validate="{required:true, 'validate-email':true}"/>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="action subscribe primary" title="<?php /* @escapeNotVerified */
+                        echo __('Subscribe'); ?>" type="submit">
+                            <span><?php /* @escapeNotVerified */
+                                echo __('Subscribe'); ?></span>
+                        </button>
+                    </div>
+                    <?php echo $block->getChildHtml('popup_privacy') ?>
+                </form>
             </div>
-            <div class="actions">
-                <button class="action subscribe primary" title="<?php /* @escapeNotVerified */ echo __('Subscribe'); ?>" type="submit">
-                    <span><?php /* @escapeNotVerified */ echo __('Subscribe'); ?></span>
-                </button>
-            </div>
-            <?php echo $block->getChildHtml('popup_privacy') ?>
-        </form>
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
-</div>
-<script type="text/x-magento-init">
+    <script type="text/x-magento-init">
     {
         "#popup-newsletter": {
             "PHPCuong_Newsletter/js/process-popup-newsletter": {
-            <?php if($block->onlyCms() == 0): ?>
-                "popupTitle": "<?php /* @escapeNotVerified */ echo __('Newsletter'); ?>"
+            <?php if ($block->onlyCms() == 0): ?>
+                "popupTitle": "<?php /* @escapeNotVerified */
+            echo __('Newsletter'); ?>"
             <?php else: ?>
                 "popupTitle": ""
             <?php endif; ?>
             }
         }
     }
-</script>
+    </script>
+    <div id="cookiename" data-cookiename="<?php echo $popUpCookieFullName ?>"/>
 <?php endif; ?>

@@ -52,7 +52,7 @@ class Subscribe extends \Magento\Framework\View\Element\Template
         }
 
         if ($checkNewsletterSubscriber && $checkNewsletterSubscriber->isSubscribed()) {
-            $this->cookieManager->setPublicCookie(self::NEWSLETTER_POPUP_COOKIE_NAME, 1);
+            $this->cookieManager->setPublicCookie($this->popUpCookieFullName, 1);
         }
 
         parent::__construct($context, $data);
@@ -74,7 +74,9 @@ class Subscribe extends \Magento\Framework\View\Element\Template
         return $this->helper->getPopupEnabled();
     }
 
-    public function onlyCms(){
+    public function onlyCms()
+    {
         return $this->helper->getOnlyCms();
     }
+
 }
