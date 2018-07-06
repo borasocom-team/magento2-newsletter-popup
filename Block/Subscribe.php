@@ -19,7 +19,7 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Newsletter\Model\Subscriber;
-use PHPCuong\Newsletter\Helper;
+use PHPCuong\Newsletter\Helper\Data;
 
 class Subscribe extends \Magento\Framework\View\Element\Template
 {

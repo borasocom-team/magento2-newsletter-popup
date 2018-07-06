@@ -1,5 +1,7 @@
 <?php
 
+namespace PHPCuong\Newsletter\Helper;
+
 class Data extends \Magento\Framework\App\Helper\AbstractHelper{
 
     const POPUP_ENABLED = 'newsletter/popup/enabled';
