@@ -12,7 +12,7 @@
  * @see \PHPCuong\Newsletter\Block\Subscribe
  */
 
-$htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
+$htmlFromCms = $block->getChildHtml(\PHPCuong\Newsletter\Helper\Data::CMS_BLOCK_ID)
 ?>
 <style>
     .popup-newsletter .block.newsletter {
@@ -59,7 +59,7 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
         <h2><?php /* @escapeNotVerified */ echo __('Sign Up for Our Newsletter:'); ?></h2>
         <?php endif; ?>
     </div>
-    <?php if(!$block->getOnlyCms()): ?>
+    <?php if($block->onlyCms() == 0): ?>
     <div class="content">
         <form class="form subscribe"
             novalidate
@@ -89,7 +89,11 @@ $htmlFromCms = $block->getChildHtml('newsletter.popup.upper.content')
     {
         "#popup-newsletter": {
             "PHPCuong_Newsletter/js/process-popup-newsletter": {
+            <?php if($block->onlyCms() == 0): ?>
                 "popupTitle": "<?php /* @escapeNotVerified */ echo __('Newsletter'); ?>"
+            <?php else: ?>
+                "popupTitle": ""
+            <?php endif; ?>
             }
         }
     }
