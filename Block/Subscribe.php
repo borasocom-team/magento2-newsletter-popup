@@ -18,6 +18,7 @@ namespace PHPCuong\Newsletter\Block;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\LayoutFactory;
 use Magento\Newsletter\Model\Subscriber;
 use PHPCuong\Newsletter\Helper\Data;
 
@@ -30,6 +31,7 @@ class Subscribe extends \Magento\Framework\View\Element\Template
     protected $newsletterSubscriber;
     protected $cookieManager;
     protected $helper;
+    protected $layoutFactory;
 
     public function __construct(
         Template\Context $context,
@@ -37,21 +39,28 @@ class Subscribe extends \Magento\Framework\View\Element\Template
         Subscriber $subscriber,
         CookieManagerInterface $cookie,
         Data $helper,
+        LayoutFactory $layoutFactory,
         array $data = []
     ) {
         $this->customerSession      = $session;
         $this->newsletterSubscriber = $subscriber;
         $this->cookieManager        = $cookie;
         $this->helper               = $helper;
+        $this->layoutFactory        = $layoutFactory;
 
         $customerId                = $this->customerSession->getCustomerId();
         $checkNewsletterSubscriber = false;
+
+        $htmlFromCms               = $this->layoutFactory->create()->createBlock('Magento\Cms\Block\Block')
+                                                         ->setBlockId(\PHPCuong\Newsletter\Helper\Data::CMS_BLOCK_ID)
+                                                         ->toHtml();
+        $this->popUpCookieFullName = \PHPCuong\Newsletter\Block\Subscribe::NEWSLETTER_POPUP_COOKIE_NAME . '_' . hash('md5', $htmlFromCms);
 
         if (is_numeric($customerId)) {
             $checkNewsletterSubscriber = $this->newsletterSubscriber->loadByCustomerId($customerId);
         }
 
-        if ($checkNewsletterSubscriber && $checkNewsletterSubscriber->isSubscribed()) {
+        if ($checkNewsletterSubscriber && $checkNewsletterSubscriber->isSubscribed() && ! $this->helper->getOnlyCms()) {
             $this->cookieManager->setPublicCookie($this->popUpCookieFullName, 1);
         }
 
